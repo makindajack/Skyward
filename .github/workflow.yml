@@ -1,0 +1,63 @@
+name: Django App CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+     test:
+      name: Test
+      #Run on Ubuntu using the latest version
+      runs-on: ubuntu-latest
+      steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and start docker images
+        run: |
+          DOCKER_BUILDKIT=1  docker-compose build --no-cache
+          sudo chmod +x docker.sh
+          ./docker.sh
+        shell: bash
+
+  #     - name: Start database container
+  #       run: docker run -d -p 5432:5432 --name mydatabase -e POSTGRES_PASSWORD=mysecretpassword postgres
+
+  #     - name: Wait for database to start
+  #       run: sleep 10
+
+  #     - name: Run integration tests
+  #       run: python manage.py test integration_tests
+
+  # build-and-push:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.x
+
+  #     - name: Build and push Docker image
+  #       env:
+  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  #         IMAGE_NAME: my-django-app
+  #         IMAGE_TAG: latest
+  #       run: |
+  #         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  #         docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+  #         docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
