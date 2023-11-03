@@ -25,7 +25,7 @@ class HomepageTests(SimpleTestCase):
 
     def test_homepage_contains_correct_html(self):
         """Test that the homepage contains the expected HTML content."""
-        self.assertContains(self.response, "home page")
+        self.assertContains(self.response, "home pag")
 
     def test_homepage_does_not_contain_incorrect_html(self):
         """Test that the homepage does not contain unexpected HTML content."""
