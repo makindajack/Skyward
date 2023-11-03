@@ -30,7 +30,7 @@ function healthcheck(){
 
 function unit_test(){
     echo "Starting unit test..."
-    status=$(docker-compose exec web python manage.py test)
+    status=$(docker-compose exec -T web python manage.py test)
     echo "This is the exit status of the command: $status"
     if [ "$status" == "0" ]; then
         echo "Unit test completed successfully."
