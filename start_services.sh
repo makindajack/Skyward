@@ -47,3 +47,5 @@ start_container "web"
 healthcheck || { echo "Healthcheck failed, exiting."; exit 1; }
 
 echo "All containers and healthcheck passed successfully."
+
+unit_test
