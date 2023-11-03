@@ -21,11 +21,11 @@ class HomepageTests(SimpleTestCase):
 
     def test_homepage_template(self):
         """Test that the homepage uses the correct template."""
-        self.assertTemplateUsed(self.response, "home.html")
+        self.assertTemplateUsed(self.response, "hoe.html")
 
     def test_homepage_contains_correct_html(self):
         """Test that the homepage contains the expected HTML content."""
-        self.assertContains(self.response, "home pag")
+        self.assertContains(self.response, "home page")
 
     def test_homepage_does_not_contain_incorrect_html(self):
         """Test that the homepage does not contain unexpected HTML content."""
