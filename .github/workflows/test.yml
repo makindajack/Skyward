@@ -82,7 +82,7 @@ jobs:
           cd ./infrastructure-aws
           ls
           pulumi stack select sja/infrastructure-aws/dev
-          pulumi new python -y
+          pulumi up
 
       - name: Run String Replace
         uses: frabert/replace-string-action@master
