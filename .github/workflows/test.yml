@@ -80,8 +80,8 @@ jobs:
       - uses: pulumi/actions@v3
         with:
           command: up
-          stack-name: sja/infrastructure-aws/dev
-          working-directory: ./infrastructure-aws
+          stack-name: sja/infrastructure-aws/dev 
+          work-dir: ./infrastructure-aws
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
