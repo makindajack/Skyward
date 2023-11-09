@@ -82,6 +82,7 @@ jobs:
           cd ./infrastructure-aws
           ls
           pulumi stack select sja/infrastructure-aws/dev
+          pulumi config set aws:region us-east-1
           pulumi up --yes
 
       - name: Run String Replace
