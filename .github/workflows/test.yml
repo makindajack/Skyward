@@ -76,6 +76,7 @@ jobs:
       - name: Pulumi Login
         run: |
           curl -fsSL https://get.pulumi.com | sh
+          ls
           pulumi stack select sja/infrastructure-aws/dev
           ls
           cd ./infrastructure-aws
