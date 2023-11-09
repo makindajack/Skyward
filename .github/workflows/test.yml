@@ -25,9 +25,9 @@ jobs:
         shell: bash
 
 
-  build-and-push:
+  build:
     needs: test
-    name: build
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -53,3 +53,53 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
           docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
+
+
+
+  deploy:
+    needs: build
+    name: Deploy to Elasticbeanstalk
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Get Timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Pulumi Login
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        run: |
+          curl -fsSL https://get.pulumi.com | sh
+          pulumi login --access-token $PULUMI_ACCESS_TOKEN
+          pulumi stack select dev
+
+      - name: Pulumi Up
+        run: |
+          cd ./infrastructure-aws
+          pulumi up --yes
+
+      - name: Run String Replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip * 
+
+
+      - name: Deploy to Test Env
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
+          application_name: django-app 
+          environment_name: dev-env-8178e24
+          version_label: "harverstalert-app-${{ steps.format-time.outputs.replaced }}"
+          region: us-east-1
+          deployment_package: deploy.zip

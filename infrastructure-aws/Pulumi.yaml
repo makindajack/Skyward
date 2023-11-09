@@ -1,0 +1,6 @@
+name: infrastructure-aws
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Building elasticbeanstalk infra for django deployment

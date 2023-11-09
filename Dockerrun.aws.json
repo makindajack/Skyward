@@ -1,0 +1,43 @@
+{
+    "AWSEBDockerrunVersion": "2",
+    
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "app_data"
+            },
+            "name": "data"
+        }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "backend",
+            "image": "djangocon_app:latest",
+            "networkMode": "bridge",
+            "imagePullPolicy": "Always",
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 80
+                },
+
+                {
+                    "containerPort": 8000,
+                    "hostPort": 443
+                }
+            ]  
+        }
+    ],
+    "networkMode": "bridge",
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "/ecs/my-container",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "ecs"
+        }
+    },
+    "family": "djangoCon"
+}
