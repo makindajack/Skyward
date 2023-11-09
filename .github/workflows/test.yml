@@ -25,39 +25,39 @@ jobs:
         shell: bash
 
 
-  build:
-    needs: test
-    name: Build
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.8, 3.9, 3.12.0]
+  # build:
+  #   needs: test
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     max-parallel: 4
+  #     matrix:
+  #       python-version: [3.8, 3.9, 3.12.0]
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
+  #     - name: Set up Python ${{ matrix.python-version }}
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
 
-      - name: Build and push Docker image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_NAME: djangocon_app
-          IMAGE_TAG: latest
-        run: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
-          docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
+  #     - name: Build and push Docker image
+  #       env:
+  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  #         IMAGE_NAME: djangocon_app
+  #         IMAGE_TAG: latest
+  #       run: |
+  #         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  #         docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+  #         docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
 
 
 
   deploy:
-    needs: build
+    # needs: build
     name: Deploy to Elasticbeanstalk
     runs-on: ubuntu-latest
     steps:
@@ -78,6 +78,7 @@ jobs:
           aws-region: us-east-1
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
       - run: pip install -r requirements.txt
+        working-directory: ./infrastructure-aws
       - uses: pulumi/actions@v3
         with:
           command: up
