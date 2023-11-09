@@ -67,19 +67,16 @@ jobs:
         uses: gerred/actions/current-time@master
         id: current-time
 
-      - name: Pulumi Login
+      - name: Set Pulumi Environment Variables
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         run: |
-          curl -fsSL https://get.pulumi.com | sh
-          pulumi login --access-token $PULUMI_ACCESS_TOKEN
-          pulumi stack select dev
+          echo "PULUMI_ACCESS_TOKEN=$PULUMI_ACCESS_TOKEN" >> $GITHUB_ENV
 
-      - name: Pulumi Up
+      - name: Pulumi Login
         run: |
-          cd ./infrastructure-aws
-          pulumi up --yes
-
+          curl -fsSL https://get.pulumi.com | sh
+          pulumi stack select dev
       - name: Run String Replace
         uses: frabert/replace-string-action@master
         id: format-time
@@ -97,7 +94,7 @@ jobs:
         uses: einaregilsson/beanstalk-deploy@v14
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: django-app 
           environment_name: dev-env-8178e24
           version_label: "harverstalert-app-${{ steps.format-time.outputs.replaced }}"
