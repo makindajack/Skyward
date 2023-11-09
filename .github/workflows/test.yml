@@ -97,7 +97,7 @@ jobs:
         uses: einaregilsson/beanstalk-deploy@v14
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
+          aws_secret_key: ${{ secrets.AWS_ACCESS_KEY }}
           application_name: django-app 
           environment_name: dev-env-8178e24
           version_label: "harverstalert-app-${{ steps.format-time.outputs.replaced }}"
