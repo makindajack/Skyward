@@ -83,7 +83,7 @@ jobs:
           ls
           pulumi stack select sja/infrastructure-aws/dev
           pulumi config set aws:region us-east-1
-          pulumi up --yes
+          pulumi up  --debug --yes
 
       - name: Run String Replace
         uses: frabert/replace-string-action@master
