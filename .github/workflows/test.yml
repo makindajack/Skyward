@@ -61,11 +61,11 @@ jobs:
     name: Deploy to Elasticbeanstalk
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: Install python
-        uses: actions/setup-python@v2
-        with: 
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v2
+        with:
           python-version: 3.9
       - name: Get Timestamp
         uses: gerred/actions/current-time@master
