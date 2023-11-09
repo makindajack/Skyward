@@ -81,7 +81,7 @@ jobs:
         working-directory: ./infrastructure-aws
       - uses: pulumi/actions@v3
         with:
-          command: up --debug --yes
+          command: preview
           stack-name: sja/infrastructure-aws/dev 
           work-dir: ./infrastructure-aws
         env:
