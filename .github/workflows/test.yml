@@ -63,27 +63,29 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: Install python
+        uses: actions/setup-python@v2
+        with: 
+          python-version: 3.9
       - name: Get Timestamp
         uses: gerred/actions/current-time@master
         id: current-time
 
-      - name: Set Pulumi Environment Variables
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-region: us-east-1
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+      - run: |
+          cd ./infrastructure-aws
+          pip install -r requirements.txt
+      - uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: sja/infrastructure-aws/dev
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        run: |
-          echo "PULUMI_ACCESS_TOKEN=$PULUMI_ACCESS_TOKEN" >> $GITHUB_ENV
-
-      - name: Pulumi Login
-        run: |
-          curl -fsSL https://get.pulumi.com | sh
-          ls
-          
-          ls
-          cd ./infrastructure-aws
-          ls
-          pulumi stack select sja/infrastructure-aws/dev
-          pulumi config set aws:region us-east-1
-          pulumi up --debug --yes
 
       - name: Run String Replace
         uses: frabert/replace-string-action@master
