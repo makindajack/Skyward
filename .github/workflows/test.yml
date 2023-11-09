@@ -76,7 +76,7 @@ jobs:
       - name: Pulumi Login
         run: |
           curl -fsSL https://get.pulumi.com | sh
-          pulumi stack select dev
+          pulumi stack select sja/infrastructure-aws/dev
       - name: Run String Replace
         uses: frabert/replace-string-action@master
         id: format-time
