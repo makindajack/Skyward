@@ -7,13 +7,7 @@ config = pulumi.Config()
 db_username = config.require("db_username")
 db_password = config.require_secret("db_password")
 
-stack = pulumi.Stack()
 
-# Access the Pulumi configuration for the current stack
-config = pulumi.Config()
-
-# Set the AWS region
-config.set("aws:region", "us-east-1") 
 
 
 default_vpc = aws.ec2.DefaultVpc(
