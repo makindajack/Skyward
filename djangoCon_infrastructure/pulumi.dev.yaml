@@ -1,6 +1,0 @@
-config:
-  aws:region: us-east-1
-  infrastructure-aws:db_password:
-    secure: AAABAGTeRL7BLe9ON8wVviEwhVEiM14BCbtCIUBaNznNH2NYls2UZ3vs
-  infrastructure-aws:db_username:
-    secure: AAABAO9xxSjd/NGedsP7jkg8GFBpM98RqJZE6NCz0ft8Aimo1KPFQQ==
