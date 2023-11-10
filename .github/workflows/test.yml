@@ -58,6 +58,7 @@ jobs:
           USERNAME: ${{ secrets.DB_USER }}
           PASSWORD: ${{ secrets.DB_PASS }}
         run: |
+          curl -fsSL https://get.pulumi.com | sh
           cd ./infrastructure-aws
           pip install -r requirements.txt
           pulumi stack select sja/infrastructure-aws/dev
