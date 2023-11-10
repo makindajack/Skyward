@@ -94,7 +94,7 @@ def create_elastic_beanstalk_with_ecs(conn: str):
     eb_environment = aws.elasticbeanstalk.Environment(
         "dev-env",
         application=eb_application.name,
-        solution_stack_name="64bit Amazon Linux 2 v3.2.1 running ECS",
+        solution_stack_name="64bit Amazon Linux 2 v3.2.13 running ECS",
         settings=[
             aws.elasticbeanstalk.EnvironmentSettingArgs(
                 namespace="aws:elasticbeanstalk:environment",
