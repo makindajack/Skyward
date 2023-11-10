@@ -62,7 +62,7 @@ jobs:
           cd ./infrastructure-aws
           pip install -r requirements.txt
           pulumi stack select sja/infrastructure-aws/dev
-          pulumi config set --secret db_password $USERNAME
+          pulumi config set --secret db_username $USERNAME
           pulumi config set --secret db_password $PASSWORD
           pulumi up --yes
 
