@@ -119,7 +119,7 @@ def create_elastic_beanstalk_with_ecs(conn: str):
             aws.elasticbeanstalk.EnvironmentSettingArgs(
                 namespace="aws:autoscaling:launchconfiguration",
                 name="IamInstanceProfile",
-                value="arn:aws:iam::005671143539:role/ebs-ec2-role",
+                value="arn:aws:iam::005671143539:instance-profile/eb-ec2-role",
             ),
             aws.elasticbeanstalk.EnvironmentSettingArgs(
                 namespace="aws:ec2:vpc",
