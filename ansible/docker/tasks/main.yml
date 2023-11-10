@@ -1,5 +1,5 @@
 ---
-# tasks file for djangoCon to isntall docker on Ubuntu 2022
+# tasks file for skyward to isntall docker on Ubuntu 2022
 
 - name: Update apt cache
   apt:

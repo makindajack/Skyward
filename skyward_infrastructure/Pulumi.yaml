@@ -1,4 +1,4 @@
-name: djangoCon_infrastructure
+name: skyward_infrastructure
 runtime:
   name: python
   options:

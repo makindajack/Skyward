@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command:  gunicorn django_con_project.wsgi -b 0.0.0.0:8000
+    command:  gunicorn skyward.wsgi -b 0.0.0.0:8000
     volumes:
       - .:/app
     ports:

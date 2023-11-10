@@ -1,6 +1,5 @@
 {
     "AWSEBDockerrunVersion": "2",
-    
     "volumes": [
         {
             "host": {
@@ -12,7 +11,7 @@
     "containerDefinitions": [
         {
             "name": "backend",
-            "image": "djangocon_app:latest",
+            "image": "skyward_app:latest",
             "networkMode": "bridge",
             "imagePullPolicy": "Always",
             "memory": 256,
@@ -22,12 +21,11 @@
                     "containerPort": 8000,
                     "hostPort": 80
                 },
-
                 {
                     "containerPort": 8000,
                     "hostPort": 443
                 }
-            ]  
+            ]
         }
     ],
     "networkMode": "bridge",
@@ -39,5 +37,5 @@
             "awslogs-stream-prefix": "ecs"
         }
     },
-    "family": "djangoCon"
+    "family": "skyward"
 }
