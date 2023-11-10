@@ -69,9 +69,9 @@ def create_rds():
         engine_version="15.3",
         instance_class="db.t3.micro",
         name="testdb",
-        password=db_password,
+        password="testpassword",
         skip_final_snapshot=True,
-        username=db_username,
+        username="testuser",
         vpc_security_group_ids=[vpc_to_rds.id],
     )
 
