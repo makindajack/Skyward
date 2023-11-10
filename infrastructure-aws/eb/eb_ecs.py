@@ -7,7 +7,43 @@ config = pulumi.Config()
 db_username = config.require("db_username")
 db_password = config.require_secret("db_password")
 
+# Creating a new IAM role
+role = aws.iam.Role("role", assume_role_policy="""{
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Action": "sts:AssumeRole",
+        "Principal": {
+            "Service": "ec2.amazonaws.com"
+        },
+        "Effect": "Allow",
+        "Sid": ""
+    }]
+}
+""")
 
+# Defining a policy that allows all actions on EC2 instances
+policy = aws.iam.Policy("policy",
+    description="A policy that allows all actions on EC2 instances",
+    policy="""{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": "ec2:*",
+                "Effect": "Allow",
+                "Resource": "*"
+            }
+        ]
+    }"""
+)
+
+# Attaching the policy to the role
+role_policy_attachment = aws.iam.RolePolicyAttachment("role_policy_attachment",
+    role=role.name,
+    policy_arn=policy.arn
+)
+
+# Creating an Instance Profile and adding the role to it
+instance_profile = aws.iam.InstanceProfile("instance_profile", role=role.name)
 
 
 default_vpc = aws.ec2.DefaultVpc(
@@ -120,7 +156,7 @@ def create_elastic_beanstalk_with_ecs(conn: str):
             aws.elasticbeanstalk.EnvironmentSettingArgs(
                 namespace="aws:autoscaling:launchconfiguration",
                 name="IamInstanceProfile",
-                value="arn:aws:iam::005671143539:instance-profile/eb-ec2-role",
+                value=instance_profile.arn,
             ),
             aws.elasticbeanstalk.EnvironmentSettingArgs(
                 namespace="aws:ec2:vpc",
