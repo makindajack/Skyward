@@ -54,11 +54,17 @@ jobs:
           aws-region: us-east-1
 
       - name: Run Pulumi up
+        env:
+          USERNAME: ${{ secrets.DB_USER }}
+          PASSWORD: ${{ secrets.DB_PASS }}
         run: |
           cd ./infrastructure-aws
           pip install -r requirements.txt
           pulumi stack select sja/infrastructure-aws/dev
+          config set --secret db_password $DB_USER
+          config set --secret db_password $DB_PASS
           pulumi up --yes
+
 
       - name: Run String Replace
         uses: frabert/replace-string-action@master
