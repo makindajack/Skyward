@@ -43,8 +43,7 @@ def create_auto_scaling_group(launch_temp, subnet_ids):
     )
 
 
-
-   
+ 
 
     pulumi.export("autoscaling_group_name", asg.name)
 
