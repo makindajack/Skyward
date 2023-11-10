@@ -123,7 +123,7 @@ def create_elastic_beanstalk_with_ecs(conn: str):
     # Create Elastic Beanstalk Application
 
     eb_application = aws.elasticbeanstalk.Application(
-        "django-app", description="A Django test application"
+        "django-app", name="django-app", description="A Django test application"
     )
 
     # Create Elastic Beanstalk environment
